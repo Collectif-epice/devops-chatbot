@@ -6,21 +6,19 @@ import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
+
+import static java.lang.System.getenv;
 
 public class SlackAPITest {
 
     private SlackSession session;
 
-    @Value("${bot-token}")
-    private String botToken;
-
     @Before
     public void setUp() throws Exception {
 
-        session = SlackSessionFactory.createWebSocketSlackSession(botToken);
+        session = SlackSessionFactory.createWebSocketSlackSession(getenv("BOT_TOKEN"));
         session.connect();
     }
 
