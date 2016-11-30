@@ -1,5 +1,6 @@
 package epice.collectif;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,12 +12,15 @@ import java.io.IOException;
 @Configuration
 public class ChatBotConfig  {
 
+    @Value("${bot-token}")
+    private String botToken;
+
     @Bean
     public Chatbot initBot(){
         Chatbot bot = new Chatbot();
 
         try {
-            bot.connect(System.getenv("bot-token"));
+            bot.connect(botToken);
             bot.listen();
         } catch (IOException e) {
             e.printStackTrace();
