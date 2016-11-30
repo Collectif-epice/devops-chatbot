@@ -12,11 +12,5 @@ public class ChatbotApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ChatbotApplication.class, args);
-
-        Chatbot bot = new Chatbot();
-
-        bot.connect(System.getenv("bot-token"));
-        bot.listen();
-
 	}
 }
