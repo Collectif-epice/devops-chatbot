@@ -85,4 +85,7 @@ public class Chatbot {
         });
     }
 
+    public SlackSession getSession() {
+        return session;
+    }
 }
