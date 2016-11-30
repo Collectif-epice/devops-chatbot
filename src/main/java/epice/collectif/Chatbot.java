@@ -16,6 +16,7 @@ public class Chatbot {
     private final String CHANNEL = "bot";
     private Properties prop;
     private URL buildUrl;
+    private boolean isStarted;
 
     public Chatbot(){
 
@@ -34,10 +35,16 @@ public class Chatbot {
 
     }
 
-    public void connect(String token) throws IOException {
+    public void connect(String token){
 
         session = SlackSessionFactory.createWebSocketSlackSession(token);
-        session.connect();
+        try {
+            session.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+            isStarted = false;
+        }
+        isStarted = true;
     }
 
     public void listen() throws IOException {
