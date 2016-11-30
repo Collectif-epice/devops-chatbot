@@ -4,10 +4,8 @@ import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -16,9 +14,25 @@ public class Chatbot {
 
     private SlackSession session;
     private final String CHANNEL = "bot";
-    private final String INPUT = "hello";
-    private final String OUTPUT = "Fuck you";
+    private Properties prop;
+    private URL buildUrl;
 
+    public Chatbot(){
+
+        prop = new Properties();
+        try {
+            prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            buildUrl = new URL(prop.getProperty("build-url"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void connect(String token) throws IOException {
 
@@ -28,8 +42,7 @@ public class Chatbot {
 
     public void listen() throws IOException {
 
-        Properties prop = new Properties();
-        prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
+
 
         session.addMessagePostedListener((event, session) -> {
 
@@ -42,27 +55,17 @@ public class Chatbot {
             String messageContent = event.getMessageContent();
             if (messageContent.startsWith("build") && messageContent.contains("chatbot")) {
 
-
-                session.sendMessage(event.getChannel(),"/build-chatbot");
-
-                /**  Bordel en curl
-                URL url = null;
+                HttpURLConnection connection = null;
+                int responseCode = 0;
                 try {
-                    url = new URL(prop.getProperty("build-url"));
-                } catch (MalformedURLException e) {
+                    connection = (HttpURLConnection) buildUrl.openConnection();
+                    responseCode = connection.getResponseCode();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
-                    for (String line; (line = reader.readLine()) != null;) {
-                        System.out.println(line);
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }**/
-            
+                System.out.println("\nSending 'GET' request to URL : " + buildUrl);
+                System.out.println("Response Code : " + responseCode);
 
                 session.sendMessage(event.getChannel(),"Jenkins job '(BUILD) chatbot' is started");
             }
