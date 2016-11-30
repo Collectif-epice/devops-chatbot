@@ -8,6 +8,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class ChatbotApplication {
 
+
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ChatbotApplication.class, args);
 
