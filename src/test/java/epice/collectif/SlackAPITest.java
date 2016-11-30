@@ -2,9 +2,7 @@ package epice.collectif;
 
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
-import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
-import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +16,7 @@ public class SlackAPITest {
     @Before
     public void setUp() throws Exception {
 
-        session = SlackSessionFactory.createWebSocketSlackSession("xoxb-110200573778-pfCrEUDm50TnH6fl9LIEBZnR");
+        session = SlackSessionFactory.createWebSocketSlackSession("xoxb-110200573778-S2M1aOhC1cgSKHPXho7snCcE");
         session.connect();
     }
 

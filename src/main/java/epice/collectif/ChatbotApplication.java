@@ -18,7 +18,7 @@ public class ChatbotApplication {
 
         Chatbot bot = new Chatbot();
 
-        bot.connect("xoxb-110200573778-pfCrEUDm50TnH6fl9LIEBZnR");
+        bot.connect("xoxb-110200573778-S2M1aOhC1cgSKHPXho7snCcE");
         bot.listen();
 
 	}
