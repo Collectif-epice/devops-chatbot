@@ -14,7 +14,25 @@ public class Chatbot {
 
     private SlackSession session;
     private final String CHANNEL = "bot";
+    private Properties prop;
+    private URL buildUrl;
 
+    public Chatbot(){
+
+        prop = new Properties();
+        try {
+            prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            buildUrl = new URL(prop.getProperty("build-url"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void connect(String token) throws IOException {
 
@@ -23,9 +41,6 @@ public class Chatbot {
     }
 
     public void listen() throws IOException {
-
-        Properties prop = new Properties();
-        prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
 
 
 
@@ -40,23 +55,16 @@ public class Chatbot {
             String messageContent = event.getMessageContent();
             if (messageContent.startsWith("build") && messageContent.contains("chatbot")) {
 
-                URL url = null;
-                try {
-                    url = new URL(prop.getProperty("build-url"));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-
                 HttpURLConnection connection = null;
                 int responseCode = 0;
                 try {
-                    connection = (HttpURLConnection) url.openConnection();
+                    connection = (HttpURLConnection) buildUrl.openConnection();
                     responseCode = connection.getResponseCode();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("\nSending 'GET' request to URL : " + buildUrl);
                 System.out.println("Response Code : " + responseCode);
 
                 session.sendMessage(event.getChannel(),"Jenkins job '(BUILD) chatbot' is started");
