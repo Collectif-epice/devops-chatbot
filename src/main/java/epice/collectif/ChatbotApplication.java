@@ -18,12 +18,9 @@ public class ChatbotApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ChatbotApplication.class, args);
 
-        Properties prop = new Properties();
-        prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
-
         Chatbot bot = new Chatbot();
 
-        bot.connect(prop.getProperty("bot-token"));
+        bot.connect(System.getenv("bot-token"));
         bot.listen();
 
 	}

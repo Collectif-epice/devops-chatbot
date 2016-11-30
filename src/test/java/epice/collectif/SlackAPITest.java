@@ -17,10 +17,7 @@ public class SlackAPITest {
     @Before
     public void setUp() throws Exception {
 
-        Properties prop = new Properties();
-        prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
-
-        session = SlackSessionFactory.createWebSocketSlackSession(prop.getProperty("bot-token"));
+        session = SlackSessionFactory.createWebSocketSlackSession(System.getenv("bot-token"));
         session.connect();
     }
 
