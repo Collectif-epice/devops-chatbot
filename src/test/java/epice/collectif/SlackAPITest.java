@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Properties;
 
 public class SlackAPITest {
 
@@ -16,7 +17,10 @@ public class SlackAPITest {
     @Before
     public void setUp() throws Exception {
 
-        session = SlackSessionFactory.createWebSocketSlackSession("xoxb-110200573778-S2M1aOhC1cgSKHPXho7snCcE");
+        Properties prop = new Properties();
+        prop.load(ChatbotApplication.class.getClassLoader().getResourceAsStream("application.properties"));
+
+        session = SlackSessionFactory.createWebSocketSlackSession(prop.getProperty("bot-token"));
         session.connect();
     }
 
