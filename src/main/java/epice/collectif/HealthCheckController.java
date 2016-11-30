@@ -11,6 +11,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "healthcheck", method = GET)
     public boolean getHealthCheck(){
+
         return true;
     }
 }
